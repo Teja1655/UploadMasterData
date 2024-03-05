@@ -233,7 +233,6 @@ If the arrow function's body consist only of an object literal, this object lite
 The extra paranthesis indicate that the opening and closing brackets are part of the object literal, i.e they are not delimiters of the function body.
 
 
-
  
 
 
@@ -241,6 +240,8 @@ The extra paranthesis indicate that the opening and closing brackets are part of
  
 
 
-#   U p l o a d M a s t e r D a t a  
- #   U p l o a d M a s t e r D a t a  
+#   U p l o a d M a s t e r D a t a 
+ 
+ #   U p l o a d M a s t e r D a t a 
+ 
  

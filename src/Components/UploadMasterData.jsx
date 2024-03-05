@@ -1,35 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
 import * as XLSX from 'xlsx';
+import Papa from "papaparse";
 import SuccessPopup from "./SuccessPopup"; 
     
 function UploadMasterData({ onSuccessUpload }) {
   const [file, setFile] = useState(null);
-const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fileInfo, setFileInfo] = useState(null);
 //   const[uploadVisible,setUploadVisible]=useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
   const fileInputRef = useRef(null);
  
-//   const handleFileChange = (e) => {
-//     const selectedFile = e.target.files?.[0];
-//     if (selectedFile && (selectedFile.type === "text/csv" || selectedFile.type === "text/plain"))
-    
-//      {
-//       setFile(selectedFile);
-//       setError(null);
-//       console.log("file selected")
-//       setFileInfo({
-//           name: selectedFile.name,
-//           moment: moment().format("Do MMM YY")
-//       });
-//     }
-//      else 
-//        {
-//          setError("Please select a valid CSV or TXT file.");
-//        }
-//   };
+
  
 const handleFileChange = (e) => {
     const selectedFile = e.target.files?.[0];
@@ -43,42 +27,13 @@ const handleFileChange = (e) => {
           name: selectedFile.name, 
           moment: moment().format("Do MMM YY")
         });
-      } 
-
-    //    // Reads data from Excel file if it's an XLSX file
-    //   if (selectedFile.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-    //     readExcelFile(selectedFile);
-    //   }
-      
-      else {
-        setError("Please select a valid CSV, TXT, or XLSX file.");
+      } else{
+        setError("Please select a valid CSV or TXT file.");
       }
+      
     }
   };
 
-  const readExcelFile = (file) => {
-  const reader = new FileReader();
-
-  reader.onload = (e) => {
-    try {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      console.log("Data from Excel:", jsonData);
-      onSuccessUpload(jsonData); 
-    } catch (error) {
-      console.error("Error reading Excel file:", error);
-    }
-  };
-
-  reader.onerror = (e) => {
-    console.error("File reading error:", e.target.error);
-  };
-
-  reader.readAsArrayBuffer(file);
-};
 
 
 const handleFileDrop = (e) => {
@@ -143,59 +98,125 @@ const handleFileDrop = (e) => {
     fileInputRef.current.value = null;
   };
  
-//   const handleUploadClick = async () => {
-//     if(!file){
-//         setError("Please select a file");
-//         return;
-//     }
 
-//     setLoading(true);
-//     const formData = new FormData();
-//     formData.append("file", file);
-//     try {
-//        setSuccessModalVisible(true)
-//     //    setUploadVisible(false);
-//     //   setIsVisible(false);
-//     } catch (error) {
-      
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  // const handleUploadClick = async () => {
+  //   if (!file) {
+  //     setError("Please select a file");
+  //     return;
+  //   }
+  
+  //   setLoading(true);
+  
+  //   // Checks whether the file is an XLSX, CSV, or TXT file
+  //   if (
+  //     file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+  //     file.type === "text/csv" ||
+  //     file.type === "text/plain"
+  //   ) {
+  //     const reader = new FileReader();
+  
+  //     reader.onload = (e) => {
+  //       const data = e.target.result;
+  
+  //       if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+  //         const workbook = XLSX.read(data, { type: "array" });
+  //         const sheetName = workbook.SheetNames[0];
+  //         const worksheet = workbook.Sheets[sheetName];
+  //         const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+  //         console.log("Data from XLSX:", jsonData);
+  //         onSuccessUpload(jsonData);
+  //       } else if (file.type === "text/csv") {
+  //         const parsedData = Papa.parse(data, { header: true });
+  //         console.log("Data from CSV:", parsedData.data);
+  //         onSuccessUpload(parsedData.data);
+  //       } else {
+  //         const textData = data;
+  //         console.log("Data from TXT:", textData);
+  //         onSuccessUpload(textData); // Call onSuccessUpload with the text data for TXT files
+  //       }
+  //       setLoading(false);
+  //     };
+  
+  //     reader.onerror = (e) => {
+  //       console.error("File reading error:", e.target.error);
+  //       setError("Error reading file");
+  //       setLoading(false);
+  //     };
+  
+  //     // For XLSX files
+  //     if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+  //       reader.readAsArrayBuffer(file);
+  //     } else {
+  //       // for CSV and TXT files
+  //       reader.readAsText(file);
+  //     }
+  //   } else {
+  //     setError("Please select a valid XLSX, CSV, or TXT file.");
+  //     setLoading(false);
+  //   }
+  // };
 
-
-const handleUploadClick = async () => {
+  const handleUploadClick = async () => {
+    setError(""); 
     if (!file) {
-        
-        setError("Please select a file");
-        return;
+      setError("Please select a file");
+      return;
     }
     setLoading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          console.log("File data:", event.target.result);
-        };
-        reader.readAsText(file);
-        
-        setTimeout(() => {
-            onSuccessUpload(); 
-            setLoading(false);
-        }, 1000); 
-    } catch (error) {
-        
-        console.error("Upload failed:", error);
+    
+   // Checks whether the file is an XLSX, CSV, or TXT file
+    if (
+      file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+      file.type === "text/csv" ||
+      file.type === "text/plain"
+    ) {
+      const reader = new FileReader();
+  
+      reader.onload = (e) => {
+        const data = e.target.result;
+  
+        if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+          const workbook = XLSX.read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          console.log("Data from XLSX:", jsonData);
+          onSuccessUpload(jsonData);
+        } else if (file.type === "text/csv") {
+          const parsedData = Papa.parse(data, { header: true });
+          console.log("Data from CSV:", parsedData.data);
+          onSuccessUpload(parsedData.data);
+        } else {
+          const textData = data;
+          console.log("Data from TXT:", textData);
+          onSuccessUpload(textData); // Call onSuccessUpload with the text data for TXT files
+        }
         setLoading(false);
+      };
+  
+      reader.onerror = (e) => {
+        console.error("File reading error:", e.target.error);
+        setError("Error reading file");
+        setLoading(false);
+      };
+  
+      // For file reading types
+      if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+        reader.readAsArrayBuffer(file);
+      } else {
+        reader.readAsText(file);
+      }
+    } else {
+      setError("Please select a valid XLSX, CSV, or TXT file.");
+      setLoading(false);
     }
-};
+  };
+  
   const handleSuccessModalButtonClick = () => {
     setSuccessModalVisible(false);
   };
  
-  
+
   useEffect(() => {
     const dropZone = document.getElementById("drop-zone");
     dropZone.addEventListener("dragover", (e) => {
