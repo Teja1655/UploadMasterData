@@ -5,7 +5,7 @@ const DataTable = ({ data }) => {
     return <p>No data available</p>;
   }
   const columns = Object.keys(data[0]);
-
+  console.log(columns, "gands")
   return (
     <table>
       <thead>

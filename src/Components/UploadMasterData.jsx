@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 import Papa from "papaparse";
 import SuccessPopup from "./SuccessPopup"; 
     
-function UploadMasterData({ onSuccessUpload }) {
+function UploadMasterData({ onSuccessUpload, setShowUpload }) {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -95,6 +95,7 @@ const handleFileDrop = (e) => {
     setFile(null);
     setError(null);
     setFileInfo(null);
+    setShowUpload(false)
     fileInputRef.current.value = null;
   };
  
@@ -179,7 +180,7 @@ const handleFileDrop = (e) => {
           const workbook = XLSX.read(data, { type: "array" });
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 0 });
           console.log("Data from XLSX:", jsonData);
           onSuccessUpload(jsonData);
         } else if (file.type === "text/csv") {

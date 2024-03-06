@@ -289,13 +289,13 @@ const App = () => {
       console.log("Invalid Data Format:Data is not an array");
     }
   };
-  
+
 
   return (
     <div className="App">
       {!showUpload && !showSuccessPopup && <UploadButton onClick={handleUploadButtonClick} />}
       {showUpload && !showSuccessPopup && (
-        <UploadMasterData onSuccessUpload={handleDataUpload} />
+        <UploadMasterData onSuccessUpload={handleDataUpload} setShowUpload={setShowUpload} />
       )}
       {showSuccessPopup && (
         <SuccessPopup
