@@ -185,12 +185,14 @@ const handleFileDrop = (e) => {
           onSuccessUpload(jsonData);
         } else if (file.type === "text/csv") {
           const parsedData = Papa.parse(data, { header: true });
+
           console.log("Data from CSV:", parsedData.data);
           onSuccessUpload(parsedData.data);
         } else {
           const textData = data;
           console.log("Data from TXT:", textData);
-          onSuccessUpload(textData); // Call onSuccessUpload with the text data for TXT files
+          onSuccessUpload(textData); 
+          
         }
         setLoading(false);
       };
