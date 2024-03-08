@@ -1,6 +1,6 @@
 import React from 'react';
  
-const EmployeeDataTable = ({ employees }) => {
+const EmployeeDataTable = ({ employees=[] }) => {
   return (
     <table className="min-w-full leading-normal">
       <thead>
@@ -16,21 +16,22 @@ const EmployeeDataTable = ({ employees }) => {
           </th>
         </tr>
       </thead>
-      {/* <tbody>
-        {employees.map((employee, index) => (
-          <tr key={index}>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-{employee.name}
-            </td>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              {employee.type}
-            </td>
-            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-{employee.id}
-            </td>
-          </tr>
-        ))}
-      </tbody> */}
+      <tbody>
+  {employees.map((employee, index) => (
+    <tr key={index}>
+      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        {employee.name}
+      </td>
+      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        {employee.location}
+      </td>
+      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        {employee.id}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
     </table>
   );
 };

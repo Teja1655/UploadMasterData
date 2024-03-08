@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
  
 const EmployeeForm = ({ onSubmit }) => {
+    const[name,setName]=useState('');
+    const[location,setLocation]=useState('');
+    const[id,setId]=useState('');
+
+     const hanldesubmit =(e)=>{
+        e.preventDefault();
+        
+     const newEmployee={name,id,location};
+     onSubmit(newEmployee);
+     setName('');
+     setLocation('');
+     setId('');
+     }
   return (
-    <form className="employee-form" onSubmit={onSubmit}>
+    <form className="employee-form" onSubmit={hanldesubmit} >
      <div className='flex justify-evenly'>
      <label>
         Employee Name*
-        <input type="text" placeholder="Enter name" />
+        <input type="text" placeholder="Enter name"  value={name} onChange={(e)=>setName(e.target.value)}/>
       </label>
       <label>
-        Employee Type*
-          <input type="type" placeholder=''/>
+        Location*
+          <input type="type" placeholder='Enter Location' value={location} onChange={(e)=>setLocation(e.target.value)}/>
          </label>
           <label>
         Employee ID*
-         <input type='text' placeholder='Enter Id'/>
+         <input type='text' placeholder='Enter Id' value={id} onChange={(e)=>setId(e.target.value)}/>
          </label>
          </div>
       

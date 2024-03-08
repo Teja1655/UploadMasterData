@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import UploadButton from "./Components/UploadButton";
 import UploadMasterData from "./Components/UploadMasterData";
 import SuccessPopup from "./Components/SuccessPopup";
-import DataTable from "./Components/DataTable";
+import EmployeeForm from "./Components/EmployeeForm";
+import EmployeeDataTable from "./Components/Employee DataTable";
+
 
 const App = () => {
   const [showUpload, setShowUpload] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [uploadedData, setUploadedData] = useState(null);
+  const [employeeData, setEmployeeData] = useState([]);
 
   const handleUploadButtonClick = () => {
     setShowUpload(true);
-  };
+    };
 
   const handleSuccessModalButtonClick = () => {
     setShowSuccessPopup(false);
@@ -25,6 +28,10 @@ const App = () => {
     }else{
       console.log("Invalid Data Format:Data is not an array");
     }
+  };
+
+  const handleEmployeeFormSubmit = (employee) => {
+    setEmployeeData([...employeeData, employee]);
   };
 
 
@@ -43,7 +50,8 @@ const App = () => {
           onButtonClick={handleSuccessModalButtonClick}
         />
       )}
-      {uploadedData && <DataTable data={uploadedData} />} 
+       <EmployeeForm onSubmit={handleEmployeeFormSubmit} />
+      <EmployeeDataTable employees={employeeData} />
     </div>
   );
 };
