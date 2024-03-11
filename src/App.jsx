@@ -66,7 +66,7 @@ const App = () => {
         />
       )}
       <EmployeeForm onSubmit={handleEmployeeFormSubmit} />
-      <EmployeeDataTable employees={[...employeeData, ...(uploadedData || [])]} />
+      <EmployeeDataTable employees={[...employeeData||uploadedData]} />
     </div>
   );
 };
