@@ -42,7 +42,7 @@ const handleFileDrop = (e) => {
     console.log("File dropped"); 
     const droppedFile = e.dataTransfer.files[0];
     console.log("Dropped file:", droppedFile);
-    if (droppedFile && (droppedFile.type === "text/csv" || droppedFile.type === "text/plain")) {
+    if (droppedFile && (droppedFile.type === "text/csv" || droppedFile.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || droppedFile.type === "text/plain")) {
       setFile(droppedFile);
       setError(null);
       setFileInfo({
@@ -126,7 +126,7 @@ const handleFileDrop = (e) => {
           const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 0 });
           console.log("Data from XLSX:", jsonData);
           onSuccessUpload(jsonData);
-        } else if (file.type === "text/csv") {
+          } else if (file.type === "text/csv") {
           const parsedData = Papa.parse(data, { header: true });
 
           console.log("Data from CSV:", parsedData.data);
@@ -134,7 +134,7 @@ const handleFileDrop = (e) => {
         } else {
           const textData = data;
           console.log("Data from TXT:", textData);
-          onSuccessUpload(textData); 
+          onSuccessUpload(textData);
 
         }
         setLoading(false);
