@@ -20,13 +20,13 @@ const EmployeeDataTable = ({ employees=[] }) => {
   {employees.map((employee, index) => (
     <tr key={index}>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        {employee.name}
+        {employee['EMPLOYEE NAME']|| employee.name}
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        {employee.location}
+        {employee['LOCATION']|| employee.location}
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        {employee.id}
+        {employee['EMPLOYEE ID'] || employee.id}
       </td>
     </tr>
   ))}
