@@ -7,8 +7,7 @@ const EmployeeForm = ({ onSubmit }) => {
 
      const hanldesubmit =(e)=>{
         e.preventDefault();
-        
-     const newEmployee={name,id,location};
+       const newEmployee={name,id,location};
      onSubmit(newEmployee);
      setName('');
      setLocation('');
@@ -19,15 +18,15 @@ const EmployeeForm = ({ onSubmit }) => {
      <div className='flex justify-evenly'>
      <label>
         Employee Name*
-        <input type="text" placeholder="Enter name"  value={name} onChange={(e)=>setName(e.target.value)}/>
+        <input type="text" placeholder="Enter name"  value={name} onChange={(e)=>setName(e.target.value)} required/>
       </label>
       <label>
         Location*
-          <input type="type" placeholder='Enter Location' value={location} onChange={(e)=>setLocation(e.target.value)}/>
+          <input type="type" placeholder='Enter Location' value={location} onChange={(e)=>setLocation(e.target.value)} required/>
          </label>
           <label>
         Employee ID*
-         <input type='text' placeholder='Enter Id' value={id} onChange={(e)=>setId(e.target.value)}/>
+         <input type='text' placeholder='Enter Id' value={id} onChange={(e)=>setId(e.target.value)} required/>
          </label>
          </div>
       
