@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, {useState,useEffect } from 'react';
 
-const EmployeeForm = () => {
+const EmployeeForm = ({fetchdata,employeeData}) => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [id, setId] = useState('');
-
+  // const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    if (employeeData) {
+setName(employeeData.name || '');
+      setLocation(employeeData.location || '');
+setId(employeeData.id || '');
+    }
+  }, [employeeData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,14 +22,17 @@ const EmployeeForm = () => {
     setId('');
 
     try {
+      // setLoading(true)
       const response = await fetch('https://manoj-bakery.onrender.com/employee', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ employeeName: newEmployee.name, location: newEmployee.location, employeeId: newEmployee.id }),
-      });
 
+      });
+      // setLoading(false)
+      fetchdata();
       if (!response.ok) {
         const errorMessage = await response.text();
         throw new Error(`Failed to submit data: ${response.status} - ${errorMessage}`);
@@ -30,10 +40,11 @@ const EmployeeForm = () => {
 
     } catch (error) {
       console.error('Error submitting data:', error);
-
+      // setLoading(false)
     }
+    // window.location.href="http://localhost:5173/";
   };
-
+  // if (loading) return <h1>loading...</h1>
   return (
     <form className="employee-form" onSubmit={handleSubmit} >
       <div className='flex justify-evenly'>

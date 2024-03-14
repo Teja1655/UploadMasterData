@@ -18,20 +18,23 @@ const App = () => {
   //   }
   // }, []);
 
-  useEffect(() => {
-    const fetchdata = async () => {
-      try {
-        const response = await fetch("https://manoj-bakery.onrender.com/employee");
-        if (!response.ok) {
-          throw new Error('failed to fetch data')
-        }
-        const data = await response.json();
-        setEmployeeData(data);
-      } catch (error) {
-        console.error("failed fetching data".error);
+  const fetchdata = async () => {
+    try {
+      const response = await fetch("https://manoj-bakery.onrender.com/employee");
+      if (!response.ok) {
+        throw new Error('failed to fetch data')
       }
-    };
+      const data = await response.json();
+      setEmployeeData(data);
+    } catch (error) {
+      console.error("failed fetching data".error);
+    }
+  };
+
+  useEffect(() => {
+    
     fetchdata();
+    
   }, []);
 
   const handleUploadButtonClick = () => {
@@ -55,11 +58,11 @@ const App = () => {
     }
   };
 
-  const handleEmployeeFormSubmit = (employee) => {
-    const newData = [...employeeData, employee];
-    setEmployeeData(newData);
-    localStorage.setItem("employeeData", JSON.stringify(newData));
-  };
+  // const handleEmployeeFormSubmit = (employee) => {
+  //   const newData = [...employeeData, employee];
+  //   setEmployeeData(newData);
+  //   // localStorage.setItem("employeeData", JSON.stringify(newData));
+  // };
 
   return (
     <div className="App">
@@ -81,8 +84,8 @@ const App = () => {
           onButtonClick={handleSuccessModalButtonClick}
         />
       )}
-      <EmployeeForm onSubmit={handleEmployeeFormSubmit} />
-      <EmployeeDataTable employees={[...employeeData || uploadedData]} />
+      <EmployeeForm fetchdata={fetchdata} employeeData={employeeData} />
+      <EmployeeDataTable fetchdata={fetchdata} employees={[...employeeData || uploadedData]} />
     </div>
   );
 };
