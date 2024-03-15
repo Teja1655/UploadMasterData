@@ -12,7 +12,6 @@ setName(employeeData.name || '');
 setId(employeeData.id || '');
     }
   }, [employeeData]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newEmployee = { name, id, location };
@@ -48,17 +47,17 @@ setId(employeeData.id || '');
   return (
     <form className="employee-form" onSubmit={handleSubmit} >
       <div className='flex justify-evenly'>
-        <label>
+        <label className='grid gap-1'>
           Employee Name*
-          <input type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} required />
+          <input type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} className='border-black border-[1px]' required />
         </label>
-        <label>
+        <label className='grid gap-1' >
           Location*
-          <input type="type" placeholder='Enter Location' value={location} onChange={(e) => setLocation(e.target.value)} required />
+          <input type="type" placeholder='Enter Location' value={location} onChange={(e) => setLocation(e.target.value)} className='border-black border-[1px]' required />
         </label>
-        <label>
+        <label className='grid gap-1'>
           Employee ID*
-          <input type='text' placeholder='Enter Id' value={id} onChange={(e) => setId(e.target.value)} required />
+          <input type='text' placeholder='Enter Id' value={id} onChange={(e) => setId(e.target.value)} required  className='border-black border-[1px]'/>
         </label>
       </div>
 
